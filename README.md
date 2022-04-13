@@ -4,7 +4,9 @@ Code for experiments on natural transformations for submission titled: [Certifyi
 It is adapted from the publicly availabe [code repository](https://github.com/locuslab/smoothing) for the paper [Certified Adversarial Robustness via Randomized Smoothing](https://arxiv.org/abs/1902.02918) by (Cohen et al. 2019).
 
 train.py: To train models under random transformations
+
 test.py: To obtained certified accuracy under original distribution
+
 tools.py: Contains implementations of various transformations
 
 Example for training a model:
