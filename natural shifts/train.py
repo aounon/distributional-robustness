@@ -54,7 +54,7 @@ def main():
         os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     if not os.path.exists(args.outdir):
-        os.mkdir(args.outdir)
+        os.makedirs(args.outdir)
 
     print('Noise level = %.1f' % args.noise_sd)
 

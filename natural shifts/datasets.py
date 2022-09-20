@@ -10,7 +10,7 @@ from torch.utils.data import Dataset
 IMAGENET_LOC_ENV = "IMAGENET_DIR"
 
 # list of all datasets
-DATASETS = ["imagenet", "cifar10"]
+DATASETS = ["imagenet", "cifar10", "svhn"]
 
 
 def get_dataset(dataset: str, split: str, custom_transform: transforms) -> Dataset:
@@ -19,13 +19,15 @@ def get_dataset(dataset: str, split: str, custom_transform: transforms) -> Datas
         return _imagenet(split, custom_transform)
     elif dataset == "cifar10":
         return _cifar10(split, custom_transform)
+    elif dataset == "svhn":
+        return _svhn(split, custom_transform)
 
 
 def get_num_classes(dataset: str):
     """Return the number of classes in the dataset. """
     if dataset == "imagenet":
         return 1000
-    elif dataset == "cifar10":
+    elif dataset == "cifar10" or dataset == "svhn":
         return 10
 
 
@@ -35,6 +37,8 @@ def get_normalize_layer(dataset: str) -> torch.nn.Module:
         return NormalizeLayer(_IMAGENET_MEAN, _IMAGENET_STDDEV)
     elif dataset == "cifar10":
         return NormalizeLayer(_CIFAR10_MEAN, _CIFAR10_STDDEV)
+    elif dataset == "svhn":
+        return NormalizeLayer(_SVHN_MEAN, _SVHN_STDDEV)
 
 
 _IMAGENET_MEAN = [0.485, 0.456, 0.406]
@@ -43,6 +47,23 @@ _IMAGENET_STDDEV = [0.229, 0.224, 0.225]
 _CIFAR10_MEAN = [0.4914, 0.4822, 0.4465]
 _CIFAR10_STDDEV = [0.2023, 0.1994, 0.2010]
 
+_SVHN_MEAN = [0.4376, 0.4437, 0.4727]
+_SVHN_STDDEV = [0.1979, 0.2009, 0.1969]
+
+
+def _svhn(split: str, custom_transform: transforms) -> Dataset:
+    if split == "train":
+        return datasets.SVHN("./dataset_cache", split='train', download=True, transform=transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            custom_transform
+        ]))
+    elif split == "test":
+        return datasets.SVHN("./dataset_cache", split='test', download=True, transform=transforms.Compose([
+            transforms.ToTensor(),
+            custom_transform
+        ]))
 
 def _cifar10(split: str, custom_transform: transforms) -> Dataset:
     if split == "train":
