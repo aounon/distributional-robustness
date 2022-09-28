@@ -40,6 +40,16 @@ plot_results_smoothed_attacks_CIFAR10.py
 
 Will plot result, with  smoothed attack results added. test_base_attack.py must first be run for a full range of epsilon values (255/8 through 512 in increments of 255/8), and must also be run for "clean" samples (code_smooth_adv/test_base_attack.py cifar10 [checkpoint directory] [noise standard deviation] [output directory] --skip 10  --batch 400 --N 100).
 
+***
+
+To plot results using the "probabilistic" formulation of the distributional attacker Adv' (Figure 10 in the appendix), for which we do not need to estimate the population Wasserstein distance of the attack but rather can compute it by construction, use the command
+
+```
+plot_results_probabilistic_attacker_CIFAR10.py
+```
+
+Note that this uses the same raw data from the C&W L2 attack as the standard 'plot_results' script; as with the standard script, code/test_zero_attack.py must be run first, and data will then be read from the output of that command.
+
 
 
 
