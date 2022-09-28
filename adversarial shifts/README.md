@@ -1,4 +1,10 @@
-Code for L2 adversarial shift experiments. Forked form the code provided by Cohen et al. (2019). We suggest that you first download the pre-trained models for CIFAR-10 provided by Cohen et al. [https://drive.google.com/file/d/1h_TpbXm5haY5f-l4--IKylmdz6tvPoR4/view?usp=sharing]. One downloaded, use the following new scripts:
+Code for L2 adversarial shift experiments. Forked form the code provided by Cohen et al. (2019). For CIFAR-10, we suggest that you first download the pre-trained models provided by Cohen et al. [https://drive.google.com/file/d/1h_TpbXm5haY5f-l4--IKylmdz6tvPoR4/view?usp=sharing].
+For SVHN, you can train the models yourself like this (repeat for noise standard deviation 0.00, 0.12, 0.25, 0.50, 1.00):
+```
+code/train.py svhn cifar_resnet20  models/svhn/resnet20/noise_[noise standard deviation] --batch 400 --noise [noise standard deviation] --gpu 0
+```
+
+ Once trained models are obtained, use the following new scripts (replace cifar10 with svhn as appropriate):
 
 ```
 code/test_base.py cifar10 [path to directory containing model]  --noise_sd [noise standard deviation]
@@ -13,7 +19,7 @@ code/test_zero_attack.py cifar10 [path to directory containing baseline (sigma =
 This will attack the baseline model using a Carlini-Wagner L2 attack (from IBM ART) and record the attack magnitudes for each sample, as well as whether or not each attack is successful, in the directory containing the classifier.
 
 ```
-plot_results.py
+plot_results_CIFAR10.py
 ```
 
 This will compute certificates and plot the results, along with the undefended attack results. Note that the smoothed model accuracies are currently hard-coded from previous runs of code/test_base.py; however, to plot empirical attack results, code/test_zero_attack.py must be run first; data will then be read from the output of that command.

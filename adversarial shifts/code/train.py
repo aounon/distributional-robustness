@@ -69,7 +69,6 @@ def main():
     scheduler = StepLR(optimizer, step_size=args.lr_step_size, gamma=args.gamma)
 
     for epoch in range(args.epochs):
-        scheduler.step(epoch)
         before = time.time()
         train_loss, train_acc = train(train_loader, model, criterion, optimizer, epoch, args.noise_sd)
         test_loss, test_acc = test(test_loader, model, criterion, args.noise_sd)
@@ -77,8 +76,8 @@ def main():
 
         log(logfilename, "{}\t{:.3}\t{:.3}\t{:.3}\t{:.3}\t{:.3}\t{:.3}".format(
             epoch, str(datetime.timedelta(seconds=(after - before))),
-            scheduler.get_lr()[0], train_loss, train_acc, test_loss, test_acc))
-
+            scheduler.get_last_lr()[0], train_loss, train_acc, test_loss, test_acc))
+        scheduler.step()
         torch.save({
             'epoch': epoch + 1,
             'arch': args.arch,
