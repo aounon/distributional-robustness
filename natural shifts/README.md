@@ -1,10 +1,12 @@
 # Natural Shifts
 
-train.py: To train models under random transformations
+Code for experiments on natural distribution shifts like Color Shift, Hue Shift and Brightness/Saturation Changes. 
 
-test.py: To obtained certified accuracy under original distribution
+`train.py`-> Python script to train models under random transformations
 
-tools.py: Contains implementations of various transformations
+`test.py`-> Python script to obtained certified accuracy under original distribution
+
+`tools.py`-> Contains implementations of various transformations
 
 Example for training a model:
 
